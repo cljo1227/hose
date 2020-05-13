@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """Hose is a double entendre, in that it hoses the source files down with Black,
 and then hoses them into git. Not sure if that makes much sense to anyone else,
-but you're free to come up with a better name."""
+but you're free to come up with a better name, rebel scum. Never before has such
+ugly code been written in the name of pretty code, but at least it's pep-8
+certified! (by itself!)"""
 import argparse
 import os
 from glob import glob
 import sys
 
 parser = argparse.ArgumentParser()
+parser.add_argument("-p", "--push", action="store_true")
 parser.add_argument("files", nargs="*")
 args = parser.parse_args()
-successful = True
 files_parsed = set()
+push = args.push
 for arg in args.files:
     globbed = glob(arg)
     for filename in globbed:
@@ -23,13 +26,11 @@ for i, val in enumerate(files_parsed):
     if os.path.isfile(val):
         with open(val) as text:
             first_line = text.readline()
-            print("Test: {}".format(val[:-3]))
             if (val[-3:] == ".py") or (
                 first_line[:2] == "#!" and "python" in first_line
             ):
                 print("Applying black...")
                 returncode = os.system("black -l 80 {}".format(val))
-                print(returncode)
                 if returncode is not 0:
                     print(
                         "Black failed during processing of {}, aborting!".format(
@@ -37,9 +38,8 @@ for i, val in enumerate(files_parsed):
                         )
                     )
                     sys.exit(1)
-                    successful = False
-        if successful:
             os.system("git add {} -v".format(val))
-if successful:
-    os.system("git commit")
+os.system("git commit")
+if push:
+    os.system("git push")
 print("Hosing complete!")
