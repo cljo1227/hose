@@ -36,8 +36,10 @@ for i, val in enumerate(files_parsed):
                             val
                         )
                     )
+                    sys.exit(1)
                     successful = False
         if successful:
             os.system("git add {} -v".format(val))
 if successful:
     os.system("git commit")
+print("Hosing complete!")
