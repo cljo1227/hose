@@ -7,6 +7,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("files", nargs="*")
 args = parser.parse_args()
 for i, val in enumerate(args.files):
-    os.system("black -l 80 {}".format(val))
-    os.system("git add {} -v".format(val))
+    if os.path.isfile(val):
+        with open(val) as text:
+            first_line = text.readline()
+            if val [:3] is ".py" or (first_line[2:] is "#!" and "python" in
+            first_line):
+                os.system("black -l 80 {}".format(val))
+        os.system("git add {} -v".format(val))
 os.system("git commit")
