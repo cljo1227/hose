@@ -1,8 +1,11 @@
 This thing is a tool to format Python code with Black and commit it to git in
 one command, with the option to also push it. It does only this. Wildcards and
 stuff works fine, and it differentiates between Python code and non-Python code
-using file extensions and shebangs. Here are some examples of how it might be
-used:
+using file extensions and shebangs. Oh, and by default it uses a line width of
+80, as opposed to the standard 88 for Black, change it in the code if wide-ass
+source files that won't fit on ancient terminals is your thing.
+
+Here are some examples of how it might be used:
 
 Single file:
     hose example.py
