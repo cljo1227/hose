@@ -8,5 +8,5 @@ parser.add_argument("files", nargs="*")
 args = parser.parse_args()
 for i, val in enumerate(args.files):
     os.system("black -l 80 {}".format(val))
-    os.system("git add {}".format(val))
+    os.system("git add {} -v".format(val))
 os.system("git commit")
